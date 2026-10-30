@@ -10,6 +10,12 @@ public class CineDaw {
         int PrecioGeneral = 650;
         int PrecioAdulto = 600;
 
+        String sala = "";
+
+        for (int i = 0; i <= Filas * ButacasFila; i++) {
+            sala  = sala + LIBRE;
+        }
+        System.out.println(sala);
     }
 
 }
