@@ -1,4 +1,5 @@
 import java.sql.SQLOutput;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CineDaw {
@@ -51,7 +52,7 @@ public class CineDaw {
                         System.out.println("  1 2 3 4  5 6 7 8");
                         for (char f = 'A'; f <= 'F'; f++) {
                             System.out.println(f + " ");
-                            for(int b = 1; b <= ButacasFila; b++) {
+                            for (int b = 1; b <= ButacasFila; b++) {
                                 int pos = (f - 'A') * ButacasFila + (b - 1);
                                 System.out.println(sala.charAt(pos));
                                 if (b == 4) System.out.println("  "); //pasillo del medio
@@ -59,10 +60,90 @@ public class CineDaw {
                             System.out.println();
                         }
                         break;
-                }
-            }
-        }
+                    case 2:
+                        //Comprar la entrada
+                        if (sala.indexOf(LIBRE) == -1) {
+                            System.out.println("La sala está completa");
+                            break;
+                        }
+                        char fila = ' ';
+                        while (true) {
+                            System.out.println("Fila (A-F: ");
+                            String inputFila = sc.nextLine().trim().toUpperCase();
+                            if (inputFila.length() == 1 && inputFila.charAt(0) >= 'A' && inputFila.charAt(0) <= 'F') ;
+                            fila = inputFila.charAt(0);
+                            break;
+                        }
+                        System.out.println("Fila no válida. Tiene que ser una letra de la A a la F");
+                        int butaca = 0;
+                        do {
+                            System.out.println("Butaca (1-8): ");
+                            try {
+                                butaca = sc.nextInt();
+                                sc.nextLine();
+                                if (butaca < 1 || butaca > 8) System.out.println("Número fuera del rango");
+                            } catch (InputMismatchException e) {
+                                System.out.println("Tienes que introducir un número válido");
+                                sc.nextLine();
+                                butaca = 0;
+                            }
+                        } while (butaca < 1 || butaca > 8);
+                        int posicion = (fila - 'A') * ButacasFila + (butaca - 1);
+                        if (sala.charAt(posicion) == 'x') {
+                            System.out.println("La butaca ya esta ocupada");
+                            break;
+                        }
+                        System.out.print("Edad del espectador");
+                        int edad = sc.nextInt();
+                        sc.nextLine();
 
+                        int PrecioBase = PrecioGeneral;
+                        String tipoTarfica = "General";
+                        if (edad < 12) {
+                            PrecioBase = PrecioInfantil;
+                            tipoTarfica = "Infantil";
+                        } else if (edad >= 65) {
+                            PrecioBase = PrecioAdulto;
+                            tipoTarfica = "Adulto";
+                        }
+                        System.out.println("Indica el día de la semana (1 = Lunes, 2 = Martes, 3 = Miércoles, 4 = Jueves, 5 = Viernes, 6 = Sábado y 7 = Domingo");
+                        int diaSemana = sc.nextInt();
+                        sc.nextLine();
+
+                        int PrecioFinal = PrecioBase;
+                        //Dependiendo del día sera un caso distinto
+                        switch (diaSemana) {
+                            case 3:
+                                PrecioFinal = (int) Math.round(PrecioFinal * (1 - DescMierc));
+                                break;
+                            case 6:
+                            case 7:
+                                PrecioFinal = PrecioFinal + ExtraFinde;
+                                break;
+                            case 1:
+                            case 2:
+                            case 4:
+                            case 5:
+                            default:
+                                break;
+                        }
+                        //Definimos el precio en euros y centimos, ya que inicialmente estabamos con precios en centimos
+                        int euros = PrecioFinal / 100;
+                        int centimos = PrecioFinal % 100;
+                        System.out.println("Tarifa: " + tipoTarfica);
+                        System.out.println("Total a pagar; " + euros + "," + centimos + "€");
+
+                        sala = sala.substring(0, posicion) + OCUPADO + sala.substring(posicion + 1);
+                        entradasVend++;
+                        recaudaciónTotal = recaudaciónTotal + PrecioFinal;
+                        System.out.println("Entrada vendida: fila " + fila + ", butaca " + butaca + ".");
+                }// case 2
+            } catch (InputMismatchException e) {
+
+            }
+
+        }
     }
+
 
 }
