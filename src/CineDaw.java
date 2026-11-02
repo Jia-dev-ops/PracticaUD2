@@ -26,6 +26,7 @@ public class CineDaw {
 
         int entradasVendidas = 0;
         int recaudado = 0;
+        rere
 
 
     }
