@@ -39,6 +39,30 @@ public class CineDaw {
                 0. Salir
                 Elige una opción: """;
 
+        do {
+            System.out.println(MENU);
+            try {
+                opcion = sc.nextInt();
+                sc.nextLine();
+
+                switch (opcion) {
+                    case 1:
+                        //Ver la sala
+                        System.out.println("  1 2 3 4  5 6 7 8");
+                        for (char f = 'A'; f <= 'F'; f++) {
+                            System.out.println(f + " ");
+                            for(int b = 1; b <= ButacasFila; b++) {
+                                int pos = (f - 'A') * ButacasFila + (b - 1);
+                                System.out.println(sala.charAt(pos));
+                                if (b == 4) System.out.println("  "); //pasillo del medio
+                            }
+                            System.out.println();
+                        }
+                        break;
+                }
+            }
+        }
+
     }
 
 }
