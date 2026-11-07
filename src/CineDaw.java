@@ -1,8 +1,10 @@
-import com.sun.source.doctree.EscapeTree;
-
-import java.sql.SQLOutput;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
+/**
+ * Programa CineDaw: App o programa para gestionar la taquilla de un cine.
+ * @author Jiahong
+ */
 
 public class CineDaw {
 
@@ -16,8 +18,8 @@ public class CineDaw {
 
         //Precios en centimos
         final static int PrecioInfantil = 500;
-        final static int PrecioGeneral = 650;
-        final static int PrecioAdulto = 600;
+        final static int PrecioGeneral = 850;
+        final static int PrecioAnciano = 600;
         final static int ExtraFinde = 150;
         final static double DescMierc = 0.30;
 
@@ -34,6 +36,7 @@ public class CineDaw {
         int recaudaciónTotal = 0;
         int opcion = -1;
 
+        //Menú de elección del usuario
         final String MENU = """
                 =====CineDaw=====
                 1. Ver sala
@@ -42,51 +45,58 @@ public class CineDaw {
                 0. Salir
                 Elige una opción: """;
 
+        //Inicio del bucle del programa
         do {
             System.out.println(MENU);
             try {
                 opcion = sc.nextInt();
                 sc.nextLine();
-
+                //Switch para las opción del menú según lo que escriba el usuario
                 switch (opcion) {
                     case 1:
-                        //Ver la sala
-                        System.out.println("      PANTALLA");
-                        System.out.println("  1 2 3 4  5 6 7 8");
+                        //La primera opción: Ver la sala del cine
+                        System.out.println("   PANTALLA");
+                        System.out.println("  1234  5678");
                         for (char f = 'A'; f <= 'F'; f++) {
                             System.out.print(f + " ");
                             for (int b = 1; b <= ButacasFila; b++) {
                                 int pos = (f - 'A') * ButacasFila + (b - 1);
                                 System.out.print(sala.charAt(pos));
-                                if (b == 4) System.out.println("  "); //pasillo del medio
+                                if (b == 4) {
+                                    System.out.print("  "); //pasillo del medio
+                                }
                             }
                             System.out.println();
                         }
                         break;
                     case 2:
-                        //Comprar la entrada
-                        if (sala.indexOf(LIBRE) == -1) {
+                        //La segunda opción: Comprar la entrada
+                        if (sala.indexOf(LIBRE) == -1) { //comprueba si la sala esta completa
                             System.out.println("La sala está completa");
-                            break;
+                            break; //Sale del case 2
                         }
+                        //Pide fila para validar
                         char fila = ' ';
                         while (true) {
-                            System.out.print("Fila (A-F: ");
+                            System.out.print("Fila (A-F): ");
                             String inputFila = sc.nextLine().trim().toUpperCase();
-                            if (inputFila.length() == 1 && inputFila.charAt(0) >= 'A' && inputFila.charAt(0) <= 'F') ;
-                            fila = inputFila.charAt(0);
-                            break;
+                            if (inputFila.length() == 1 && inputFila.charAt(0) >= 'A' && inputFila.charAt(0) <= 'F') {
+                                fila = inputFila.charAt(0);
+                                break; //Si existe la fila y no está ocupada de sale del while
+                            }
+                            System.out.println("Fila no válida. Tiene que ser una letra de la A a la F, vuelve a escribir un número");
                         }
-                        System.out.println("Fila no válida. Tiene que ser una letra de la A a la F");
+
+
                         int butaca = 0;
                         do {
                             System.out.print("Butaca (1-8): ");
                             try {
                                 butaca = sc.nextInt();
                                 sc.nextLine();
-                                if (butaca < 1 || butaca > 8) System.out.println("Número fuera del rango");
+                                if (butaca < 1 || butaca > 8) System.out.println("Número fuera del rango, vuelve a escribir uno");
                             } catch (InputMismatchException e) {
-                                System.out.println("Tienes que introducir un número válido");
+                                System.out.println("Tienes que introducir un número válido, vuelve a escribir uno");
                                 sc.nextLine();
                                 butaca = 0;
                             }
@@ -96,7 +106,7 @@ public class CineDaw {
                             System.out.println("La butaca ya esta ocupada");
                             break;
                         }
-                        System.out.print("Edad del espectador");
+                        System.out.print("Edad del espectador: ");
                         int edad = sc.nextInt();
                         sc.nextLine();
 
@@ -106,8 +116,8 @@ public class CineDaw {
                             PrecioBase = PrecioInfantil;
                             tipoTarfica = "Infantil";
                         } else if (edad >= 65) {
-                            PrecioBase = PrecioAdulto;
-                            tipoTarfica = "Adulto";
+                            PrecioBase = PrecioAnciano;
+                            tipoTarfica = "Anciano";
                         }
                         System.out.println("Indica el día de la semana (1 = Lunes, 2 = Martes, 3 = Miércoles, 4 = Jueves, 5 = Viernes, 6 = Sábado y 7 = Domingo");
                         int diaSemana = sc.nextInt();
@@ -136,14 +146,16 @@ public class CineDaw {
                         String centimosStr = (centimos < 10) ? "0" + centimos : String.valueOf(centimos);
 
                         System.out.println("Tarifa: " + tipoTarfica);
-                        System.out.println("Total a pagar; " + euros + "," + centimos + "€");
+                        System.out.println("Total a pagar; " + euros + "," + centimos + " €");
 
                         sala = sala.substring(0, posicion) + OCUPADO + sala.substring(posicion + 1);
                         entradasVend++;
                         recaudaciónTotal = recaudaciónTotal + PrecioFinal;
                         System.out.println("Entrada vendida: fila " + fila + ", butaca " + butaca + ".");
-                        break;
+                        break; //Se cierra el case 2
+
                     case 3:
+                        //La opción 3: Calcula las estadísticas de los precios
                         int butacas_ocupadas = 0;
                         int butacas_libres = 0;
 
@@ -154,6 +166,7 @@ public class CineDaw {
                             }
                             butacas_ocupadas++;
                         }
+                        //Calcula el porcentaje con 2 decimales
                         double porcentaje = (double) butacas_ocupadas / sala.length() * 100;
                         porcentaje = Math.round(porcentaje * 100) / 100;
 
@@ -163,25 +176,27 @@ public class CineDaw {
                         String recCentimosStr = (recCentimos < 10) ? "0" + recCentimos : String.valueOf(recCentimos);
 
                         System.out.println("Entradas vendidas: " + textoEntrada);
-                        System.out.println( "Recaudación: " + recEuros + ", " + recCentimosStr + " €.");
+                        System.out.println( "Recaudación: " + recEuros + "," + recCentimosStr + " €.");
                         System.out.println("Butacas ocupadas : " + butacas_ocupadas + " libres " + butacas_libres);
                         System.out.println("Ocupación: " + porcentaje + "%.");
                         break;
-                    case 0:
 
+                    case 0:
+                        //Caso 0: Salimos del programa
                         System.out.println("Abandonando el programa ...");
                         System.out.println("Total de entradas vendidas en la sesión: " + entradasVend + ".");
                         break;
 
                     default:
                         System.out.println("Opción no válida.");
-                }
+                }//Se cierra el switch de las opciones
 
             } catch (InputMismatchException e) {
+                //Si un usuario escribe texto en el menú en vez de un número le va a dar error
                 System.out.println("Opción no válida");
-                sc.nextLine();
+                sc.nextLine(); //Limpia el buffer
             }
         }while (opcion != 0); //Se cierra el bucle del menú
         sc.close();
-    }
-}
+    }//Se cierra el main aquí
+}//Se cierra la clase
