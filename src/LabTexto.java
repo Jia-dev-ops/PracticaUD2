@@ -8,13 +8,13 @@ public class LabTexto {
     final static int min_longitud_contraseña = 8;
     final static int letras_alfabeto = 26;
 
-    static void main(String[] args) {
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int opcion = -1;
 
         //Menu guardado como un bloque
         final String MENU = """
-                ====LaTexto====
+                ====LabTexto====
                 1. Analizar frase
                 2. Cifrado César
                 3. Validar contraseña
@@ -49,7 +49,7 @@ public class LabTexto {
                         char c = frase.charAt(i);
 
                         //cuenta las palabras con espacios
-                        if (c >= ' ' && i + 1 < frase.length() && frase.charAt(i + 1) != ' ') {
+                        if (c == ' ' && i + 1 < frase.length() && frase.charAt(i + 1) != ' ') {
                             palabras++;
                         }
                         //Contar mayusc y minusc
@@ -75,9 +75,9 @@ public class LabTexto {
                         izq++;
                         der--;
                     }
-                    System.out.printf("Caracteres: " + frase.length());
+                    System.out.println("Caracteres: " + frase.length());
                     System.out.println("Palabras: " + palabras);
-                    System.out.println("Vocales: " + vocales + "Mayúsculas: " + mayusculas + "Digitos: " + digitos);
+                    System.out.println("Vocales: " + vocales + ", Mayúsculas: " + mayusculas + ", Digitos: " + digitos);
                     if(frase.length() > 0) {
                         System.out.println(esPalindromo ? "Es un palíndromo." : "No es un palíndromo");
                     }
@@ -136,16 +136,16 @@ public class LabTexto {
                     boolean noTieneUsuario = contras.toLowerCase().indexOf(usuario.toLowerCase()) == -1;
 
                     //Mouestra si cumple las reglas
-                    System.out.println(tieneLongitud ? "[OK]" : "[--]" + " Al menos 8 caracteres");
-                    System.out.println(tieneMayus ? "[OK]" : "[--]" + " Una mayúscula");
-                    System.out.println(tieneDigito ? "[OK]" : "[--]" + " Un digito");
-                    System.out.println(noTieneUsuario ? "[OK]" : "[--]" + " No tiene usuario");
+                    System.out.println((tieneLongitud ? "[OK]" : "[--]") + " Al menos 8 caracteres");
+                    System.out.println((tieneMayus ? "[OK]" : "[--]") + " Una mayúscula");
+                    System.out.println((tieneDigito ? "[OK]" : "[--]") + " Un digito");
+                    System.out.println((noTieneUsuario ? "[OK]" : "[--]") + " No tiene usuario");
 
                     //Contar reglas superadas
-                    int puntos = (tieneLongitud ? 1 : 0) + (tieneMayus ? 1 : 0) + (tieneDigito ? 1 : 0);
+                    int puntos = (tieneLongitud ? 1 : 0) + (tieneMayus ? 1 : 0) + (tieneDigito ? 1 : 0) + (noTieneUsuario ? 1 : 0);
                     //Encadenar para el nivel
                     String nivel = (puntos == 4) ? "FUERTE" : ((puntos >= 2) ? "MEDIA" : "DÉBIL");
-                    System.out.println("Nivel: " + nivel + " (" + puntos + "/4");
+                    System.out.println("Nivel: " + nivel + " (" + puntos + "/4)");
                     break;
                 case 0 :
                     System.out.println("Abandonado el LabTexto ...");
