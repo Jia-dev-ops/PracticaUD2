@@ -147,12 +147,14 @@ public class LabTexto {
                     String nivel = (puntos == 4) ? "FUERTE" : ((puntos >= 2) ? "MEDIA" : "DÉBIL");
                     System.out.println("Nivel: " + nivel + " (" + puntos + "/4");
                     break;
-
-
-
-
+                case 0 :
+                    System.out.println("Abandonado el LabTexto ...");
+                    break;
+                default:
+                    System.out.println("Opción no válida");
             }
-        }
+        }while (opcion != 0);
+        sc.close();
     }
 
 }
