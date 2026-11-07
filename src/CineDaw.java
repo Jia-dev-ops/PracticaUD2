@@ -188,12 +188,12 @@ public class CineDaw {
                         break;
 
                     default:
-                        System.out.println("Opción no válida.");
+                        System.out.println("Opción no válida ");
                 }//Se cierra el switch de las opciones
 
             } catch (InputMismatchException e) {
                 //Si un usuario escribe texto en el menú en vez de un número le va a dar error
-                System.out.println("Opción no válida");
+                System.out.println("Opción no válida ");
                 sc.nextLine(); //Limpia el buffer
             }
         }while (opcion != 0); //Se cierra el bucle del menú
