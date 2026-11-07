@@ -38,7 +38,7 @@ public class LabTexto {
             switch (opcion) {
                 case 1:
                     //Analiza la frase
-                    System.out.println("Escribe una frase: ");
+                    System.out.print("Escribe una frase: ");
                     String frase = sc.nextLine().trim();
 
                     int palabras = 0, vocales= 0, mayusculas = 0, digitos = 0;
@@ -82,6 +82,41 @@ public class LabTexto {
                         System.out.println(esPalindromo ? "Es un palíndromo." : "No es un palíndromo");
                     }
                     break;
+                case 2:
+                    //Cifrado César
+                    System.out.println("Texto: ");
+                    String texto = sc.nextLine();
+
+                    int desplazamiento = 0;
+                    //Bucle para pedir el desplazamiento hasta que sea un número válido
+                    while (true) {
+                        System.out.print("Desplazamiento: ");
+                        try{
+                            desplazamiento = Integer.parseInt(sc.nextLine());
+                            break;
+                        }catch(NumberFormatException e){
+                            System.out.println("El desplazamiento debe ser un número entero. ");
+                        }
+                    }
+
+                    //Ajustar el desplazamiento para que soporte negativos y mayores de 26.
+                    desplazamiento = (desplazamiento % letras_alfabeto + letras_alfabeto) % letras_alfabeto;
+
+                    String cifrado = "";
+                    for (int i = 0; i < texto.length(); i++) {
+                        char c = texto.charAt(i);
+                        //Aritmética de char y casting para mayus y minus
+                        if (c >= 'A' && c <= 'Z') {
+                            cifrado += (char) ('A' + (c - 'A'+ desplazamiento) % letras_alfabeto);
+                        }else  if (c >= 'a' && c <= 'z') {
+                            cifrado += (char) ('a' + (c - 'a'+ desplazamiento) % letras_alfabeto);
+                        }else {
+                            cifrado = cifrado + c;
+                        }
+                    }
+                    System.out.println("Cifrado: " + cifrado);
+                    break;
+
             }
         }
     }
