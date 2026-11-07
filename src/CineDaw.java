@@ -1,3 +1,5 @@
+import com.sun.source.doctree.EscapeTree;
+
 import java.sql.SQLOutput;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -173,13 +175,13 @@ public class CineDaw {
 
                     default:
                         System.out.println("Opción no válida.");
-
                 }
 
             } catch (InputMismatchException e) {
-
+                System.out.println("Opción no válida");
+                sc.nextLine();
             }
-
-        }while (opcion != 0);
+        }while (opcion != 0); //Se cierra el bucle del menú
+        sc.close();
     }
 }
