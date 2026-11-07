@@ -49,12 +49,13 @@ public class CineDaw {
                 switch (opcion) {
                     case 1:
                         //Ver la sala
+                        System.out.println("      PANTALLA");
                         System.out.println("  1 2 3 4  5 6 7 8");
                         for (char f = 'A'; f <= 'F'; f++) {
-                            System.out.println(f + " ");
+                            System.out.print(f + " ");
                             for (int b = 1; b <= ButacasFila; b++) {
                                 int pos = (f - 'A') * ButacasFila + (b - 1);
-                                System.out.println(sala.charAt(pos));
+                                System.out.print(sala.charAt(pos));
                                 if (b == 4) System.out.println("  "); //pasillo del medio
                             }
                             System.out.println();
@@ -68,7 +69,7 @@ public class CineDaw {
                         }
                         char fila = ' ';
                         while (true) {
-                            System.out.println("Fila (A-F: ");
+                            System.out.print("Fila (A-F: ");
                             String inputFila = sc.nextLine().trim().toUpperCase();
                             if (inputFila.length() == 1 && inputFila.charAt(0) >= 'A' && inputFila.charAt(0) <= 'F') ;
                             fila = inputFila.charAt(0);
@@ -77,7 +78,7 @@ public class CineDaw {
                         System.out.println("Fila no válida. Tiene que ser una letra de la A a la F");
                         int butaca = 0;
                         do {
-                            System.out.println("Butaca (1-8): ");
+                            System.out.print("Butaca (1-8): ");
                             try {
                                 butaca = sc.nextInt();
                                 sc.nextLine();
@@ -130,6 +131,8 @@ public class CineDaw {
                         //Definimos el precio en euros y centimos, ya que inicialmente estabamos con precios en centimos
                         int euros = PrecioFinal / 100;
                         int centimos = PrecioFinal % 100;
+                        String centimosStr = (centimos < 10) ? "0" + centimos : String.valueOf(centimos);
+
                         System.out.println("Tarifa: " + tipoTarfica);
                         System.out.println("Total a pagar; " + euros + "," + centimos + "€");
 
@@ -137,13 +140,46 @@ public class CineDaw {
                         entradasVend++;
                         recaudaciónTotal = recaudaciónTotal + PrecioFinal;
                         System.out.println("Entrada vendida: fila " + fila + ", butaca " + butaca + ".");
-                }// case 2
+                        break;
+                    case 3:
+                        int butacas_ocupadas = 0;
+                        int butacas_libres = 0;
+
+                        for (int i = 0; i < sala.length(); i++) {
+                            if (sala.charAt(i) == LIBRE){
+                                butacas_libres++;
+                                continue;
+                            }
+                            butacas_ocupadas++;
+                        }
+                        double porcentaje = (double) butacas_ocupadas / sala.length() * 100;
+                        porcentaje = Math.round(porcentaje * 100) / 100;
+
+                        String textoEntrada = (entradasVend == 1) ? "1 entrada" : entradasVend + "entradas";
+                        int recEuros = recaudaciónTotal/100;
+                        int recCentimos = recaudaciónTotal%100;
+                        String recCentimosStr = (recCentimos < 10) ? "0" + recCentimos : String.valueOf(recCentimos);
+
+                        System.out.println("Entradas vendidas: " + textoEntrada);
+                        System.out.println( "Recaudación: " + recEuros + ", " + recCentimosStr + " €.");
+                        System.out.println("Butacas ocupadas : " + butacas_ocupadas + " libres " + butacas_libres);
+                        System.out.println("Ocupación: " + porcentaje + "%.");
+                        break;
+                    case 0:
+
+                        System.out.println("Abandonando el programa ...");
+                        System.out.println("Total de entradas vendidas en la sesión: " + entradasVend + ".");
+                        break;
+
+                    default:
+                        System.out.println("Opción no válida.");
+
+                }
+
             } catch (InputMismatchException e) {
 
             }
 
-        }
+        }while (opcion != 0);
     }
-
-
 }
