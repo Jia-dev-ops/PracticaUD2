@@ -116,6 +116,40 @@ public class LabTexto {
                     }
                     System.out.println("Cifrado: " + cifrado);
                     break;
+                case 3 :
+                    System.out.print("Usuario: ");
+                    String usuario = sc.nextLine();
+                    System.out.print("Contraseña: ");
+                    String contras = sc.nextLine();
+
+                    //Booleanos independientes
+                    boolean tieneLongitud = contras.length() >= min_longitud_contraseña;
+                    boolean tieneMayus = false;
+                    boolean tieneDigito = false;
+
+                    for (int i = 0; i < contras.length(); i++) {
+                        char c = contras.charAt(i);
+                        if (c >= 'A' && c <= 'Z') tieneMayus = true;
+                        if (c >= '0' && c <= '9') tieneDigito = true;
+                    }
+                    //El indexOf devuelve -1 si no encuentra el usuario dentro de la contraseña
+                    boolean noTieneUsuario = contras.toLowerCase().indexOf(usuario.toLowerCase()) == -1;
+
+                    //Mouestra si cumple las reglas
+                    System.out.println(tieneLongitud ? "[OK]" : "[--]" + " Al menos 8 caracteres");
+                    System.out.println(tieneMayus ? "[OK]" : "[--]" + " Una mayúscula");
+                    System.out.println(tieneDigito ? "[OK]" : "[--]" + " Un digito");
+                    System.out.println(noTieneUsuario ? "[OK]" : "[--]" + " No tiene usuario");
+
+                    //Contar reglas superadas
+                    int puntos = (tieneLongitud ? 1 : 0) + (tieneMayus ? 1 : 0) + (tieneDigito ? 1 : 0);
+                    //Encadenar para el nivel
+                    String nivel = (puntos == 4) ? "FUERTE" : ((puntos >= 2) ? "MEDIA" : "DÉBIL");
+                    System.out.println("Nivel: " + nivel + " (" + puntos + "/4");
+                    break;
+
+
+
 
             }
         }
