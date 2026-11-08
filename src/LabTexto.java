@@ -1,8 +1,10 @@
-import java.util.Scanner;
-
 /**
  * Programa LabTexto: Un laboratorio de análisis y cifrado de texto.
+ * @author Jiahong
  */
+
+import java.util.Scanner;
+
 public class LabTexto {
     //Constantes del enunciado
     final static int min_longitud_contraseña = 8;
@@ -41,7 +43,7 @@ public class LabTexto {
                     System.out.print("Escribe una frase: ");
                     String frase = sc.nextLine().trim();
 
-                    int palabras = 0, vocales= 0, mayusculas = 0, digitos = 0;
+                    int palabras = 0, vocales= 0, mayusculas = 0, digitos = 0; //Explicar contador de palabras
                     if (frase.length() > 0){
                         palabras = 1; //si hay texto, hay una palabra como mínimo
                     }
@@ -100,7 +102,7 @@ public class LabTexto {
                     }
 
                     //Ajustar el desplazamiento para que soporte negativos y mayores de 26.
-                    desplazamiento = (desplazamiento % letras_alfabeto + letras_alfabeto) % letras_alfabeto;
+                    desplazamiento = (desplazamiento % letras_alfabeto + letras_alfabeto) % letras_alfabeto; //Cifrado césar
 
                     String cifrado = "";
                     for (int i = 0; i < texto.length(); i++) {

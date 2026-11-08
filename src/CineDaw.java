@@ -1,10 +1,10 @@
-import java.util.InputMismatchException;
-import java.util.Scanner;
-
 /**
  * Programa CineDaw: App o programa para gestionar la taquilla de un cine.
  * @author Jiahong
  */
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public class CineDaw {
 
@@ -28,6 +28,7 @@ public class CineDaw {
     static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         //Generamos la sala vacía con un bucle
+        //Explicar video
         String sala = "";
         for (int i = 0; i < Filas * ButacasFila; i++) {
             sala = sala + LIBRE;
@@ -60,7 +61,7 @@ public class CineDaw {
                         for (char f = 'A'; f <= 'F'; f++) {
                             System.out.print(f + " ");
                             for (int b = 1; b <= ButacasFila; b++) {
-                                int pos = (f - 'A') * ButacasFila + (b - 1);
+                                int pos = (f - 'A') * ButacasFila + (b - 1); //Explicar el cálculo de la posiciçon de una butaca
                                 System.out.print(sala.charAt(pos));
                                 if (b == 4) {
                                     System.out.print("  "); //pasillo del medio
@@ -125,6 +126,7 @@ public class CineDaw {
 
                         int PrecioFinal = PrecioBase;
                         //Dependiendo del día sera un caso distinto
+                        //Switch día de la semana
                         switch (diaSemana) {
                             case 3:
                                 PrecioFinal = (int) Math.round(PrecioFinal * (1 - DescMierc));
@@ -148,7 +150,7 @@ public class CineDaw {
                         System.out.println("Tarifa: " + tipoTarfica);
                         System.out.println("Total a pagar; " + euros + "," + centimos + " €");
 
-                        sala = sala.substring(0, posicion) + OCUPADO + sala.substring(posicion + 1);
+                        sala = sala.substring(0, posicion) + OCUPADO + sala.substring(posicion + 1); //Actualización string
                         entradasVend++;
                         recaudaciónTotal = recaudaciónTotal + PrecioFinal;
                         System.out.println("Entrada vendida: fila " + fila + ", butaca " + butaca + ".");
@@ -170,14 +172,14 @@ public class CineDaw {
                         double porcentaje = (double) butacas_ocupadas / sala.length() * 100;
                         porcentaje = Math.round(porcentaje * 100) / 100;
 
-                        String textoEntrada = (entradasVend == 1) ? "1 entrada" : entradasVend + "entradas";
+                        String textoEntrada = (entradasVend == 1) ? "1 entrada" : entradasVend + " entradas";
                         int recEuros = recaudaciónTotal/100;
                         int recCentimos = recaudaciónTotal%100;
                         String recCentimosStr = (recCentimos < 10) ? "0" + recCentimos : String.valueOf(recCentimos);
 
                         System.out.println("Entradas vendidas: " + textoEntrada);
                         System.out.println( "Recaudación: " + recEuros + "," + recCentimosStr + " €.");
-                        System.out.println("Butacas ocupadas : " + butacas_ocupadas + " libres " + butacas_libres);
+                        System.out.println("Butacas ocupadas : " + butacas_ocupadas + " butacas libres: " + butacas_libres);
                         System.out.println("Ocupación: " + porcentaje + "%.");
                         break;
 
@@ -193,7 +195,7 @@ public class CineDaw {
 
             } catch (InputMismatchException e) {
                 //Si un usuario escribe texto en el menú en vez de un número le va a dar error
-                System.out.println("Opción no válida ");
+                System.out.println("Opción no válida, escribelo en formato número ");
                 sc.nextLine(); //Limpia el buffer
             }
         }while (opcion != 0); //Se cierra el bucle del menú
